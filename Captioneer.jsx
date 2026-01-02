@@ -873,15 +873,26 @@ export default function Captioneer() {
         }
         
         addLog(`  → Sending to vision API...`, 'info');
-        const caption = await captionImage(base64Image, mimeType);
+        const rawCaption = await captionImage(base64Image, mimeType);
         
-        // Build final caption with trigger + classifier
-        const parts = [];
-        if (triggerWord.trim()) parts.push(triggerWord.trim());
-        if (classifier.trim()) parts.push(classifier.trim());
-        parts.push(caption.trim());
+        // Post-process caption: ensure single line for CLIP compatibility
+        const processedCaption = rawCaption
+          .trim()
+          .replace(/\r\n/g, '\n')           // Normalize line endings
+          .replace(/\n+/g, '. ')            // Replace newlines with period-space
+          .replace(/\[[\w_-]+\]\s*/g, '')   // Remove bracketed tokens like [COMPOSITION], [SUBJECT], etc.
+          .replace(/\.\s*\./g, '.')         // Clean up double periods
+          .replace(/\s+/g, ' ')             // Collapse multiple spaces
+          .trim();
         
-        const finalCaption = parts.join(', ');
+        // Build final caption: TRIGGER + CLASSIFIER (space-separated), then comma before caption
+        let finalCaption = '';
+        const prefix = [triggerWord.trim(), classifier.trim()].filter(Boolean).join(' ');
+        if (prefix) {
+          finalCaption = prefix + ', ' + processedCaption;
+        } else {
+          finalCaption = processedCaption;
+        }
         
         // Add to ZIP
         zip.file(`${baseName}.txt`, finalCaption);

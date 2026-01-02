@@ -1,4 +1,4 @@
-# CAPTIONEER 5 - Persona
+# CAPTIONEER
 
 <div align="center">
 
@@ -335,26 +335,3 @@ MIT License - See [LICENSE](LICENSE) for details.
 Made with ⚡ for the AI Training Community
 
 </div>
-
----
-
-## 📚 Citation
-
-### Academic Citation
-
-If you use this codebase in your research or project, please cite:
-
-```bibtex
-@software{captioneer,
-  title = {CAPTIONEER: Batch Image Captioning Tool for AI Training Datasets},
-  author = {Drift Johnson},
-  year = {2025},
-  url = {https://github.com/MushroomFleet/CAPTIONEER5-persona},
-  version = {1.0.0}
-}
-```
-
-### Donate:
-
-
-[![Ko-Fi](https://cdn.ko-fi.com/cdn/kofi3.png?v=3)](https://ko-fi.com/driftjohnson)
